@@ -6,9 +6,11 @@ namespace LogMessageApp.Repositories
     public class LogMessageRepository : ILogMessageRepository
     {
         private readonly ApiContext _apiContext;
-        public LogMessageRepository(ApiContext apiContext)
+        private readonly IConfiguration _configuration;
+        public LogMessageRepository(ApiContext apiContext, IConfiguration configuration)
         {
             _apiContext = apiContext;
+            _configuration = configuration;
         }
         public List<LogMessage> GetLogMessages(int logId)
         {
@@ -16,13 +18,15 @@ namespace LogMessageApp.Repositories
             return logMessages;
         }
         public LogMessage AddMessage(String name, int logId, String message)
-        {            
+        {
+            var maxAgeInSec = _configuration["maxAgeInSec"];
             LogMessage logMessage = new LogMessage()
             {
                 LogId = logId,
                 Name = name,
                 Message = message,
-                Created = DateTime.Now                
+                Created = DateTime.Now,
+                ValidTill = DateTime.Now.AddSeconds(Convert.ToInt64(maxAgeInSec))
             };
             _apiContext.logMessage.Add(logMessage);
             _apiContext.SaveChanges();

@@ -7,6 +7,7 @@
         public string? Message { get; set; }
         public string? Name { get; set; }
         public DateTime Created { get; set; }
-        
+        public DateTime? ValidTill { get; set; }
+
     }
 }
