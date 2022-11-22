@@ -1,8 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using LogMessageApp.Data;
+using LogMessageApp.Repositories;
+
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase("LogMessageDb"));
+
+
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<ILogMessageRepository, LogMessageRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
