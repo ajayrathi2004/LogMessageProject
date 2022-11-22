@@ -14,7 +14,7 @@ namespace LogMessageApp.Controllers
         {
             _logRepository = logRepository;
         }
-        [HttpGet]
+        [HttpGet("GetLog/{logId}")]
         public JsonResult GetLog(int logId)
         {
             var logMessages = _logRepository.GetLogMessages(logId);
@@ -26,7 +26,7 @@ namespace LogMessageApp.Controllers
             var logMessage = _logRepository.AddMessage(name, logId, message);
             return new JsonResult(Ok(logMessage));
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public JsonResult GetAllLogMessages()
         {
             var messages = _logRepository.GetAllLogMessages();
