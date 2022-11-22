@@ -14,7 +14,7 @@ namespace LogMessageApp.Repositories
         }
         public List<LogMessage> GetLogMessages(int logId)
         {
-            var logMessages = _apiContext.logMessage.Where(l => l.LogId == logId).ToList();
+            var logMessages = _apiContext.logMessage.Where(l => l.LogId == logId && l.ValidTill >= DateTime.Now).ToList();
             return logMessages;
         }
         public LogMessage AddMessage(String name, int logId, String message)
@@ -35,7 +35,7 @@ namespace LogMessageApp.Repositories
         }
         public List<LogMessage> GetAllLogMessages()
         {
-            var logMessages = _apiContext.logMessage.ToList();
+            var logMessages = _apiContext.logMessage.Where(c => c.ValidTill >= DateTime.Now).ToList();
             return logMessages;
 
         }
